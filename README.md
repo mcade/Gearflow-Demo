@@ -1,4 +1,4 @@
-# GearflowDemo
+# Gearflow Demo
 This is a Phoenix LiveView demo that improves the "shop by brand" UX for https://gearflow.com/. 
 
 To start your Phoenix server:
