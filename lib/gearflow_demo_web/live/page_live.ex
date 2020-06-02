@@ -3,37 +3,41 @@ defmodule GearflowDemoWeb.PageLive do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, query: "", results: %{})}
+    {:ok, assign(socket, query: "", results: [])}
   end
 
   @impl true
   def handle_event("suggest", %{"q" => query}, socket) do
-    {:noreply, assign(socket, results: search(query), query: query)}
+    if query != "" do
+      {:noreply, assign(socket, results: search(query), query: query)}
+    else
+      {:noreply, assign(socket, results: [])}
+    end
   end
 
   @impl true
   def handle_event("search", %{"q" => query}, socket) do
     case search(query) do
-      %{^query => vsn} ->
-        {:noreply, redirect(socket, external: "https://hexdocs.pm/#{query}/#{vsn}")}
+      [{url, _brand}] ->
+        {:noreply, redirect(socket, external: "https://gearflow.com/brands/#{url}")}
 
       _ ->
         {:noreply,
          socket
-         |> put_flash(:error, "No dependencies found matching \"#{query}\"")
-         |> assign(results: %{}, query: query)}
+         |> put_flash(:error, "No brands found matching \"#{query}\"")
+         |> assign(results: [], query: query)}
     end
   end
 
   defp search(query) do
-    if not GearflowDemoWeb.Endpoint.config(:code_reloader) do
-      raise "action disabled when not in development"
-    end
+    dc_query = String.downcase(query)
 
-    for {app, desc, vsn} <- Application.started_applications(),
-        app = to_string(app),
-        String.starts_with?(app, query) and not List.starts_with?(desc, ~c"ERTS"),
-        into: %{},
-        do: {app, vsn}
+    brands =
+      for {url, brand} <- GearflowDemo.Suppliers.list_brands(),
+          brand |> String.downcase() |> String.starts_with?(dc_query),
+          do: {url, brand}
+
+    # only take first 10 items to keep datalist small and fast
+    Enum.take(brands, 10)
   end
 end

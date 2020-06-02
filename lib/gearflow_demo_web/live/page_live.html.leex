@@ -10,8 +10,8 @@
     <form phx-change="suggest" phx-submit="search">
       <input type="text" name="q" value="<%= @query %>" placeholder="Enter brand name" list="results" autocomplete="off"/>
       <datalist id="results">
-        <%= for {app, _vsn} <- @results do %>
-          <option value="<%= app %>"><%= app %></option>
+        <%= for {_url, brand} <- @results do %>
+          <option value="<%= brand %>"><%= brand %></option>
         <% end %>
       </datalist>
       <button class="btn primary" type="submit" phx-disable-with="Searching...">View Products</button>
