@@ -1,5 +1,42 @@
-/* This file is for your main application css. */
 @import "../node_modules/nprogress/nprogress.css";
+@import "variables.scss";
+
+html {
+  height: 100%;
+  box-sizing: border-box;
+  font-size: 16px;
+  font-family: 'Noto Sans', sans-serif;
+  @include for-phone-only { font-size: 14px; }
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: "Fjalla One", serif;
+  font-weight: 400;
+  line-height: 1.25;
+}
+
+.btn {
+  padding: .5rem 1rem;
+  border-radius: 2px;
+  font-weight: 700;
+  border: none;
+  display: inline-block;
+  &:hover {
+    cursor: pointer;
+  }
+  &:disabled {
+    pointer-events: none;
+  }
+}
+
+.btn.primary {
+  color: white;
+  background: $brand-orange;
+  &:hover { 
+    background: $light-orange;
+  }
+}
+
 
 /* LiveView specific classes for your customizations */
 .invalid-feedback {
@@ -62,10 +99,11 @@
 
 /* Alerts and form errors */
 .alert {
+  text-align: center;
   padding: 15px;
   margin-bottom: 20px;
+  margin-top: 0;
   border: 1px solid transparent;
-  border-radius: 4px;
 }
 .alert-info {
   color: #31708f;
@@ -109,4 +147,34 @@
 
 footer {
   height: 100px;
+}
+
+section.shop-by {
+  margin: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  h2 {
+    margin: 0;
+  }
+  p {
+    margin: 1rem 0;
+  }
+  input {
+    line-height: 1;
+    border-radius: 3px;
+    border: solid 1px lightgray;
+    padding: .5rem;
+    background-color: $lighter-gray;
+    @include for-phone-only {
+      display: block;
+      margin-bottom: 1rem;
+      &::placeholder { text-align: center; }
+    }
+    @include for-tablet-portrait-up {
+      margin-right: 1rem;
+    }
+  }
 }
