@@ -88,3 +88,25 @@
 .alert:empty {
   display: none;
 }
+
+
+#landing-page {
+  padding: 1rem;
+}
+
+.site-content, footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: gray;
+  border: solid 3px gray;
+  text-align: center;
+}
+
+.site-content {
+  height: 400px;
+}
+
+footer {
+  height: 100px;
+}
